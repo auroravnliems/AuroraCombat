@@ -1,0 +1,247 @@
+# +==========================================================+ #
+# <             Cấu hình AuroraCombat                         > #
+# <             Paper 1.21.1+ | Java 21                       > #
+# +==========================================================+ #
+
+General:
+  WorldExclusions:
+    - 'example_world'
+  AutoRespawn: true # Tự động hồi sinh
+  DeathsWhileTaggedCountPvP: true # Chết khi đang giao tranh vẫn tính là mạng PvP
+
+# ===================================== #
+#         TRẠNG THÁI GIAO TRANH         #
+# ===================================== #
+CombatTag:
+  Enabled: true
+  Time: 15 # Thời gian giao tranh (giây)
+  Glowing: true # Hiệu ứng phát sáng khi bị tag
+  UntagOnKill: false # Hết giao tranh ngay khi giết được đối thủ
+  SelfTag: false # Tự tag bản thân
+  EnderPearlRenewsTag: true
+  WindChargeRenewsTag: true
+  # MỚI 1.21: Đòn tấn công bằng Mace (Chùy) sẽ tag người chơi
+  MaceRenewsTag: true
+
+  PvETag:
+    Enabled: false
+    OnlyHostile: true # Chỉ tag khi đánh quái dữ
+
+  Display:
+    ActionBar:
+      Enabled: true
+      # Placeholders: <time>, <enemy>, <enemy_health>
+      Message: '&8[&c&lGIAO TRANH&8] &7<time>s &8• &7đối đầu &f<enemy> &8(&c<enemy_health>❤&8)'
+    BossBar:
+      Enabled: true
+      Message: '&8[&c&lGIAO TRANH&8] &e&lCòn lại <time> giây'
+      BarColor: RED
+      BarStyle: SOLID
+    Nametags:
+      Enabled: true
+      Prefix: '&4⚔ &c'
+
+  BlockedActions:
+    EnderPearls: false
+    ChorusFruits: false
+    Teleport: true # Chặn dịch chuyển khi đánh nhau
+    UnsafeTeleports: false
+    Riptide: true
+    Eat: false
+    PlaceBlocks: false
+    BreakBlocks: false
+    OpenInventory: false
+    EnterPortal: true # Chặn vào cổng (Nether/End)
+    Elytra:
+      BlockGliding: false
+      BlockFireworks: false
+
+  Commands:
+    Enabled: true
+    Whitelist: true # Bật danh sách lệnh trắng (chỉ cho phép dùng các lệnh dưới đây)
+    List:
+      - 'tell'
+      - 'msg'
+      - 'r'
+      - 'combattag'
+      - 'ct'
+
+  CommandsOnTag: []
+  CommandsOnUntag: []
+
+  WorldGuardExclusions:
+    - 'spawn'
+    - 'safezone'
+
+# ================================== #
+#        THOÁT KHI GIAO TRANH        #
+# ================================== #
+CombatLog:
+  MoneyPenalty: 0.0 # Phạt tiền khi thoát game
+  SpawnNPC:
+    Enabled: false
+    NPCDespawnTime: 30
+    BlockLogin: true
+  KillOnLogout:
+    Enabled: true
+    PlayerDrops:
+      Inventory: false
+      Experience: false
+      Armor: false
+  PunishOnKick:
+    Enabled: true
+    MatchKickReason: false
+    KickReasons:
+      - 'disconnect.spam'
+  CommandsOnCombatLog:
+    - 'broadcast &6[AuroraCombat] &f<player> &cđã hèn nhát thoát game khi đang giao tranh!'
+
+# ========================= #
+#        BẬT/TẮT PVP        #
+# ========================= #
+PvPToggle:
+  DefaultPvP: true
+  ToggleCooldown: 15
+  ProtectionEffect:
+    Enabled: true
+    Particle: ENCHANT
+  StateCooldown:
+    Enabled: false
+    Time: 30
+  NameTags:
+    Enabled: false
+    PrefixOn: '&4⚔ '
+    PrefixOff: '&2✦ '
+  WorldGuardOverrides: true
+
+PvPGrant:
+  BlockPickItems: false
+
+# ============================== #
+#     BẢO VỆ NGƯỜI CHƠI MỚI      #
+# ============================== #
+NewbieProtection:
+  Enabled: true
+  Time: 120 # 2 phút bảo vệ
+  AllowPlayerDisable: true
+  BlockPickItems: false
+  ProtectFromEverything: false
+  BossBar:
+    Enabled: true
+    Message: '&6🛡 &aBảo Vệ &fNgười Mới &6🛡 &e&l<time>'
+    BarColor: GREEN
+    BarStyle: SOLID
+  CommandBlacklist:
+    - 'examplecommand'
+
+# ================================== #
+#     CHỐNG CHẠY VÀO KHU AN TOÀN     #
+# ================================== #
+AntiBorderHopping:
+  Vulnerable:
+    Enabled: true
+    RenewCombatTag: true
+  Barrier:
+    Enabled: true
+    Mode: FAST
+    Material: RED_STAINED_GLASS
+    Radius: 6
+    UpdateRate: 3
+  PushBack:
+    Enabled: true
+    Force: 1.2
+    BlockEnderPearl: true
+
+# ============================== #
+#       HỒI CHIÊU VẬT PHẨM       #
+# ============================== #
+ItemCooldowns:
+  # Hồi chiêu chỉ kích hoạt khi đang đánh nhau
+  Combat:
+    ENDER_PEARL: 0
+    WIND_CHARGE: 0
+    MACE: 0
+    GOLDEN_APPLE: 0
+    ENCHANTED_GOLDEN_APPLE: 0
+  # Hồi chiêu luôn luôn áp dụng
+  Global:
+    GOLDEN_APPLE: 0
+    ENCHANTED_GOLDEN_APPLE: 0
+
+# ============================== #
+#       HỆ THỐNG KILLS           #
+# ============================== #
+PlayerKills:
+  MoneyReward: 0.0
+  MoneyPenalty: 0.0
+  MoneySteal: false
+  ExpSteal: 0.0
+  DeathEffects:
+    Lightning: false
+  CommandsOnKill:
+    Cooldown: -1
+    Commands: []
+  CommandsOnRespawn: []
+  LootProtection:
+    Time: 20 # Thời gian bảo vệ vật phẩm rơi ra
+  AntiKillAbuse:
+    Enabled: true
+    MaxKills: 5
+    TimeLimit: 20
+    WarnBefore: true
+    CommandsOnAbuse:
+      - 'kick {player} &cPhát hiện lạm dụng giết chóc (Kill Abuse)!'
+    RespawnProtection: 3
+    TeleportProtection: 0
+    CommandCooldownAfterDeath:
+      Time: 3
+      Commands:
+        - 'back'
+
+# ============================== #
+#       CÀI ĐẶT KHÁC             #
+# ============================== #
+OtherSettings:
+  PvPBlood: true # Hiệu ứng máu khi đánh nhau
+  IgnoreNoDamageHits: true
+  ProtectionMessagesToActionBar: true
+  # ALWAYS, DROP, KEEP, TRANSFER, CLEAR
+  PlayerDropMode: ALWAYS
+  ShowHealthUnderName:
+    Enabled: true
+  AutoSoup:
+    Health: 0
+
+DisableOnHit:
+  Fly: true # Tắt bay khi bị đánh
+  RestoreFly: true
+  GameMode: true # Tắt Creative khi bị đánh
+  GodMode: true
+  Invisibility: false
+
+Database:
+  Type: SQLite
+  MySQL:
+    Host: 127.0.0.1
+    Port: 3306
+    Username: root
+    Password: '12345'
+    Database: minecraft
+    PoolSize: 10
+
+HarmfulPotions:
+  - SLOWNESS
+  - MINING_FATIGUE
+  - NAUSEA
+  - BLINDNESS
+  - HUNGER
+  - WEAKNESS
+  - POISON
+  - WITHER
+  - GLOWING
+  - LEVITATION
+  - UNLUCK
+  - BAD_OMEN
+  - INFESTED
+
+DebugMode: false

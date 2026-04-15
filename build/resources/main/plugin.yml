@@ -1,0 +1,74 @@
+name: AuroraCombat
+version: '1.0.0'
+main: me.aurora.auroracombat.AuroraCombat
+api-version: '1.21'
+description: A comprehensive PvP combat management plugin for Paper 1.21.1+
+authors: [AuroraTeam]
+folia-supported: true
+
+softdepend: [WorldGuard, Vault, PlaceholderAPI]
+
+commands:
+  pvp:
+    description: Toggle your PvP status
+    usage: /pvp [on|off|status]
+    aliases: [pvptoggle]
+    permission: auroracombat.pvp
+  combattag:
+    description: Check your combat status
+    usage: /combattag
+    aliases: [ct, combat]
+    permission: auroracombat.combattag
+  newbie:
+    description: Manage newbie protection
+    usage: /newbie [disable|status]
+    permission: auroracombat.newbie
+  ac:
+    description: AuroraCombat admin commands
+    usage: /ac <reload|info|tag|untag|pvpgrant|check|pvpon|pvpoff>
+    aliases: [auroracombat]
+    permission: auroracombat.admin
+
+permissions:
+  auroracombat.*:
+    description: All AuroraCombat permissions
+    default: op
+    children:
+      auroracombat.pvp: true
+      auroracombat.combattag: true
+      auroracombat.newbie: true
+      auroracombat.admin: true
+      auroracombat.bypass.combattag: true
+      auroracombat.bypass.pvptoggle: true
+      auroracombat.bypass.newbie: true
+      auroracombat.bypass.itemcooldown: true
+      auroracombat.bypass.border: true
+
+  auroracombat.pvp:
+    description: Use /pvp command
+    default: true
+  auroracombat.combattag:
+    description: Check combat status
+    default: true
+  auroracombat.newbie:
+    description: Use newbie protection commands
+    default: true
+  auroracombat.admin:
+    description: Admin commands (/ac)
+    default: op
+
+  auroracombat.bypass.combattag:
+    description: Bypass combat tagging
+    default: op
+  auroracombat.bypass.pvptoggle:
+    description: Can attack PvP-disabled players
+    default: op
+  auroracombat.bypass.newbie:
+    description: Can attack newbie-protected players
+    default: op
+  auroracombat.bypass.itemcooldown:
+    description: Bypass item cooldowns
+    default: op
+  auroracombat.bypass.border:
+    description: Bypass anti border hopping
+    default: op

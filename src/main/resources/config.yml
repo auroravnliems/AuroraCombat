@@ -1,0 +1,247 @@
+# +==========================================================+ #
+# <             AuroraCombat Configuration                     > #
+# <             Paper 1.21.1+ | Java 21                        > #
+# +==========================================================+ #
+
+General:
+  WorldExclusions:
+    - 'example_world'
+  AutoRespawn: true # Auto respawn
+  DeathsWhileTaggedCountPvP: true # Deaths while in combat still count as PvP deaths
+
+# ===================================== #
+#           COMBAT TAG SYSTEM           #
+# ===================================== #
+CombatTag:
+  Enabled: true
+  Time: 15 # Combat duration (seconds)
+  Glowing: true # Glowing effect when tagged
+  UntagOnKill: false # Remove combat tag immediately upon killing the enemy
+  SelfTag: false # Self-tagging
+  EnderPearlRenewsTag: true
+  WindChargeRenewsTag: true
+  # NEW 1.21: Mace attacks will tag players
+  MaceRenewsTag: true
+
+  PvETag:
+    Enabled: false
+    OnlyHostile: true # Only tag when hitting hostile mobs
+
+  Display:
+    ActionBar:
+      Enabled: true
+      # Placeholders: <time>, <enemy>, <enemy_health>
+      Message: '&8[&c&lCOMBAT&8] &7<time>s &8• &7fighting &f<enemy> &8(&c<enemy_health>❤&8)'
+    BossBar:
+      Enabled: true
+      Message: '&8[&c&lCOMBAT&8] &e&l<time> seconds remaining'
+      BarColor: RED
+      BarStyle: SOLID
+    Nametags:
+      Enabled: true
+      Prefix: '&4⚔ &c'
+
+  BlockedActions:
+    EnderPearls: false
+    ChorusFruits: false
+    Teleport: true # Block teleport during combat
+    UnsafeTeleports: false
+    Riptide: true
+    Eat: false
+    PlaceBlocks: false
+    BreakBlocks: false
+    OpenInventory: false
+    EnterPortal: true # Block entering portals (Nether/End)
+    Elytra:
+      BlockGliding: false
+      BlockFireworks: false
+
+  Commands:
+    Enabled: true
+    Whitelist: true # Enable command whitelist (only allow commands listed below)
+    List:
+      - 'tell'
+      - 'msg'
+      - 'r'
+      - 'combattag'
+      - 'ct'
+
+  CommandsOnTag: []
+  CommandsOnUntag: []
+
+  WorldGuardExclusions:
+    - 'spawn'
+    - 'safezone'
+
+# ================================== #
+#           COMBAT LOGGING           #
+# ================================== #
+CombatLog:
+  MoneyPenalty: 0.0 # Money penalty for logging out
+  SpawnNPC:
+    Enabled: false
+    NPCDespawnTime: 30
+    BlockLogin: true
+  KillOnLogout:
+    Enabled: true
+    PlayerDrops:
+      Inventory: false
+      Experience: false
+      Armor: false
+  PunishOnKick:
+    Enabled: true
+    MatchKickReason: false
+    KickReasons:
+      - 'disconnect.spam'
+  CommandsOnCombatLog:
+    - 'broadcast &6[AuroraCombat] &f<player> &ccowardly logged out during combat!'
+
+# ========================= #
+#        PVP TOGGLE         #
+# ========================= #
+PvPToggle:
+  DefaultPvP: true
+  ToggleCooldown: 15
+  ProtectionEffect:
+    Enabled: true
+    Particle: ENCHANT
+  StateCooldown:
+    Enabled: false
+    Time: 30
+  NameTags:
+    Enabled: false
+    PrefixOn: '&4⚔ '
+    PrefixOff: '&2✦ '
+  WorldGuardOverrides: true
+
+PvPGrant:
+  BlockPickItems: false
+
+# ============================== #
+#       NEWBIE PROTECTION        #
+# ============================== #
+NewbieProtection:
+  Enabled: true
+  Time: 120 # 2 minutes of protection
+  AllowPlayerDisable: true
+  BlockPickItems: false
+  ProtectFromEverything: false
+  BossBar:
+    Enabled: true
+    Message: '&6🛡 &aNewbie &fProtection &6🛡 &e&l<time>'
+    BarColor: GREEN
+    BarStyle: SOLID
+  CommandBlacklist:
+    - 'examplecommand'
+
+# ================================== #
+#       ANTI BORDER HOPPING          #
+# ================================== #
+AntiBorderHopping:
+  Vulnerable:
+    Enabled: true
+    RenewCombatTag: true
+  Barrier:
+    Enabled: true
+    Mode: FAST
+    Material: RED_STAINED_GLASS
+    Radius: 6
+    UpdateRate: 3
+  PushBack:
+    Enabled: true
+    Force: 1.2
+    BlockEnderPearl: true
+
+# ============================== #
+#         ITEM COOLDOWNS         #
+# ============================== #
+ItemCooldowns:
+  # Cooldowns only active during combat
+  Combat:
+    ENDER_PEARL: 0
+    WIND_CHARGE: 0
+    MACE: 0
+    GOLDEN_APPLE: 0
+    ENCHANTED_GOLDEN_APPLE: 0
+  # Cooldowns always applied
+  Global:
+    GOLDEN_APPLE: 0
+    ENCHANTED_GOLDEN_APPLE: 0
+
+# ============================== #
+#          KILL SYSTEM           #
+# ============================== #
+PlayerKills:
+  MoneyReward: 0.0
+  MoneyPenalty: 0.0
+  MoneySteal: false
+  ExpSteal: 0.0
+  DeathEffects:
+    Lightning: false
+  CommandsOnKill:
+    Cooldown: -1
+    Commands: []
+  CommandsOnRespawn: []
+  LootProtection:
+    Time: 20 # Duration of dropped item protection
+  AntiKillAbuse:
+    Enabled: true
+    MaxKills: 5
+    TimeLimit: 20
+    WarnBefore: true
+    CommandsOnAbuse:
+      - 'kick {player} &cKill abuse detected!'
+    RespawnProtection: 3
+    TeleportProtection: 0
+    CommandCooldownAfterDeath:
+      Time: 3
+      Commands:
+        - 'back'
+
+# ============================== #
+#         OTHER SETTINGS         #
+# ============================== #
+OtherSettings:
+  PvPBlood: true # Blood effect during combat
+  IgnoreNoDamageHits: true
+  ProtectionMessagesToActionBar: true
+  # ALWAYS, DROP, KEEP, TRANSFER, CLEAR
+  PlayerDropMode: ALWAYS
+  ShowHealthUnderName:
+    Enabled: true
+  AutoSoup:
+    Health: 0
+
+DisableOnHit:
+  Fly: true # Disable flight when hit
+  RestoreFly: true
+  GameMode: true # Disable Creative when hit
+  GodMode: true
+  Invisibility: false
+
+Database:
+  Type: SQLite
+  MySQL:
+    Host: 127.0.0.1
+    Port: 3306
+    Username: root
+    Password: '12345'
+    Database: minecraft
+    PoolSize: 10
+
+HarmfulPotions:
+  - SLOWNESS
+  - MINING_FATIGUE
+  - NAUSEA
+  - BLINDNESS
+  - HUNGER
+  - WEAKNESS
+  - POISON
+  - WITHER
+  - GLOWING
+  - LEVITATION
+  - UNLUCK
+  - BAD_OMEN
+  - INFESTED
+
+DebugMode: false
