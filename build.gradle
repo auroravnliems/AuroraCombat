@@ -1,0 +1,114 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.guardsquare:proguard-gradle:7.8.2'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.8'
+}
+
+group = 'me.aurora'
+version = '1.0.0'
+description = 'AuroraCombat - Comprehensive PvP management plugin for Paper 1.21.1+'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+}
+
+processResources {
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('unobf')
+
+    relocate 'org.sqlite',    'me.aurora.auroracombat.libs.sqlite'
+    relocate 'org.xerial',    'me.aurora.auroracombat.libs.xerial'
+
+    exclude 'org/slf4j/**'
+    exclude 'META-INF/versions/**'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.release = 21
+    options.compilerArgs.addAll(['-Xlint:all', '-Xlint:-processing'])
+}
+
+jar {
+    enabled = false
+}
+
+tasks.register('obfuscateJar', proguard.gradle.ProGuardTask) {
+    dependsOn shadowJar
+
+    def inputJar  = shadowJar.archiveFile.get().asFile
+    def outputJar = file("${buildDir}/libs/AuroraCombat-${version}.jar")
+
+    inputs.file(inputJar)
+    outputs.file(outputJar)
+
+    doFirst {
+        if (outputJar.exists()) outputJar.delete()
+        outputJar.parentFile.mkdirs()
+    }
+
+    injars  files(inputJar)
+    outjars files(outputJar)
+
+    libraryjars("${System.getProperty('java.home')}/jmods/java.base.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.logging.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.sql.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.desktop.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.management.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.naming.jmod",
+            filter: '!**.jar,!module-info.class')
+    libraryjars("${System.getProperty('java.home')}/jmods/java.net.http.jmod",
+            filter: '!**.jar,!module-info.class')
+
+    libraryjars(configurations.compileClasspath.filter {
+        !it.name.contains('sqlite') &&
+                !it.name.contains('xerial') &&
+                !it.name.contains('jna')
+    })
+
+    configuration 'proguard-rules.pro'
+}
+
+tasks.named('build') {
+    dependsOn 'obfuscateJar'
+}
+
+tasks.register('buildDev') {
+    dependsOn shadowJar
+    doLast {
+        def src = shadowJar.archiveFile.get().asFile
+        def dst = file("${buildDir}/libs/AuroraCombat-${version}-dev.jar")
+        src.renameTo(dst)
+        println "Dev jar: ${dst}"
+    }
+}
