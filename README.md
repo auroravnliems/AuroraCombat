@@ -494,4 +494,4 @@ build/libs/AuroraCombat-<version>.jar
 
 ## 👨‍💻 Author
 
-**AuroraTeam** — AuroraCraft Network (`auroracraft.online`)
+**Aurora_VN** — ASG Network
